@@ -1,0 +1,4 @@
+torch
+pytorch_lightning
+simclr
+pl_bolts
