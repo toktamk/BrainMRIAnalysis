@@ -3,7 +3,7 @@ import torch
 class MakeDataset(Dataset):
     def __init__(self, data_bags,target_bags):
         self.input_data = torch.tensor(data_bags).float()
-        self.target = torch.tensor(target_bags)
+        self.target  = torch.tensor(target_bags).clone().detach()
     def __len__(self):
         return len(self.input_data)
 

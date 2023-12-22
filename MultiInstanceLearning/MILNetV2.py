@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-class MILNet(nn.Module):
+class MILNetV2(nn.Module):
     def __init__(self,bagsize):
-        super(MILNet, self).__init__()
+        super(MILNetV2, self).__init__()
 
         # Instance-level CNN layers
         self.cnn = nn.Sequential(
@@ -25,27 +25,34 @@ class MILNet(nn.Module):
         )
         
         # Aggregation layer
-        self.aggregation = nn.MaxPool2d(kernel_size=(bagsize, 1))  
+        #self.aggregation = MaxPool2d(kernel_size=(bagsize, 1))  
 
         # Bag-level fully connected layers
         self.fc = nn.Sequential(
-            nn.Linear(in_features=3136, out_features=128),
+            nn.Linear(in_features=3136, out_features=1024),
             nn.ReLU(inplace=True),
-            nn.Linear(in_features=128, out_features=4) 
+            nn.Linear(in_features=1024, out_features=512),
+            nn.ReLU(inplace=True),
+            nn.Linear(in_features=512, out_features=256),
+            nn.ReLU(inplace=True),
+            
         )
+        self.output_layer = nn.Linear(in_features=256*bagsize, out_features=4) 
 
     def forward(self, bag):
         instance_reps = []
         batch_size,bagsize,C,H,W = bag.size()
         bag = bag.view(batch_size * bagsize, C, H, W)
+        bag_rep = self.cnn(bag)
+        bag_rep = bag_rep.view(batch_size * bagsize,-1)
         
-        instance_reps = self.cnn(bag)
-        instance_reps = instance_reps.view(batch_size, bagsize, instance_reps.size(1), instance_reps.size(2), 
-                                           instance_reps.size(3))
+        #instance_reps = instance_reps.view(batch_size, bagsize,instance_reps.size(1),instance_reps.size(2),instance_reps.size(3))
         #Reshape instance-level representations
-        bag_rep = torch.mean(instance_reps, dim=1) 
-        bag_rep = bag_rep.view(batch_size, -1)
+        #bag_rep = torch.mean(instance_reps, dim=1) 
+        #bag_rep = bag_rep.view(batch_size, -1)
         bag_rep = self.fc(bag_rep)
-        output = F.softmax(bag_rep, dim=1)
+        instance_rep = bag_rep.view(batch_size,-1)
+        instance_rep = self.output_layer(instance_rep)
+        output = F.softmax(instance_rep, dim=1)
         
         return output
