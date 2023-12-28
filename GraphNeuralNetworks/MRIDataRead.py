@@ -48,14 +48,14 @@ class MRIDataRead():
             target1 = targets[i]
             bag_num = patient_mri.shape[0]-bagsize
             if target1 == 'grade1':
-                target1 = 1
+                target1 = 0
             if target1 == 'grade2':
-                target1 = 2
+                target1 = 1
             if target1 == 'grade3':
-                target1 = 3
+                target1 = 2
             if target1 == 'grade4':
-                target1 = 4
-            for k in range(bags_num):
+                target1 = 3
+            for k in range(bag_num):
                 tmp_bag = []
                 
                 for p in range(bagsize):
