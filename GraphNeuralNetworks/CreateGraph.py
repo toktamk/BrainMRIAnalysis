@@ -1,3 +1,5 @@
+#CreateGraph: A module for constructing graphs from image data.
+
 class CreateGraph:
     def __init__(self,api_name=''):
         self.api_name = api_name

@@ -1,3 +1,9 @@
+#This project implements a Graph Convolutional Network (GCN) for classifying MRI images using TensorFlow and NetworkX. The workflow involves reading MRI data, generating bags of images, constructing graphs, and training a GCN model to classify the MRI scans.
+#This project consists of several key components:
+#MRIDataRead: A module for reading and preprocessing MRI data.
+#CreateGraph: A module for constructing graphs from image data.
+#GCNModel: A custom model for implementing the Graph Convolutional Network.
+
 import numpy as np
 import networkx as nx
 import tensorflow as tf

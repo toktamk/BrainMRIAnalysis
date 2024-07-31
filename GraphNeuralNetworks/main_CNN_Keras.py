@@ -1,3 +1,11 @@
+#This project implements a graph-based convolutional neural network (CNN) 
+#for classifying MRI images using TensorFlow and NetworkX. 
+#The workflow involves reading MRI data, generating bags of images, 
+# constructing graphs, and training a CNN model to classify the MRI scans.
+#CreateGraph: A module for constructing graphs from image data.
+#MRIDataRead: A module for reading and preprocessing MRI data.
+#CNNModel: A custom neural network model for implementing the CNN architecture.
+
 import numpy as np
 import networkx as nx
 import tensorflow as tf
@@ -49,7 +57,7 @@ cnn_model.compile(optimizer=optimizer,
              loss=tf.keras.losses.CategoricalCrossentropy(),
               metrics=['accuracy'])
 batch_size = 32
-epochs = 10
+epochs = 100
 reshaped_x_train = x_train.reshape((-1,newdim,newdim,bagsize,3))
 x_train2 = reshaped_x_train[:,:,:,:,1]
 x_train2 = x_train2.reshape((-1,newdim,newdim,bagsize))

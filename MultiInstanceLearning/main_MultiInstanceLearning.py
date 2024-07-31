@@ -1,3 +1,9 @@
+#This project implements a Multiple Instance Learning (MIL) approach for classifying MRI images using PyTorch. The workflow involves reading MRI data, generating bags of images, creating a custom dataset, and training an MIL-based neural network model to classify the MRI scans.
+#Project Structure
+#This project consists of several key components:
+#MRIDataRead: A module for reading and preprocessing MRI data.
+#MakeDataset: A module for creating a custom dataset for MIL.
+#MILNetV2: A custom neural network model for implementing the MIL approach.
 import MRIDataRead
 import MakeDataset
 import numpy as np

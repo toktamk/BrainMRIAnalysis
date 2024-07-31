@@ -1,3 +1,5 @@
+#GraphDataset: A custom dataset class for handling graph data.
+
 from torch.utils.data import Dataset
 
 class GraphDataset(Dataset):

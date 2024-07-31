@@ -1,3 +1,10 @@
+#This project implements a Graph Neural Network (GNN) for classifying MRI images using PyTorch and PyTorch Geometric. The workflow involves reading MRI data, generating bags of images, constructing graphs, and training a GNN model to classify the MRI scans.
+#This project consists of several key components:
+#MRIDataRead: A module for reading and preprocessing MRI data.
+#CreateGraph: A module for constructing graphs from image data.
+#GraphDataset: A custom dataset class for handling graph data.
+#Train_Evaluate_Model: A module for training and evaluating the GNN model.
+
 from torch_geometric.data import Data
 from torch.utils.data.dataloader import default_collate
 
@@ -94,7 +101,7 @@ model = GNNModel(input_dim, hidden_dim, output_dim)#.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 Train_Evaluate_Model = Train_Evaluate_Model(model,device,optimizer,criterion)
-num_epochs = 10
+num_epochs = 50
 for epoch in range(num_epochs):
     Train_Evaluate_Model.train(model, device,train_loader, optimizer, criterion)#, device)
     train_acc = Train_Evaluate_Model.evaluate(model, device, train_loader)#,device)

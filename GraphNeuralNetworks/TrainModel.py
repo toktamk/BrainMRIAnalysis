@@ -1,3 +1,5 @@
+#Train_Evaluate_Model: A module for training and evaluating the GNN model.
+
 class Train_Evaluate_Model:
     def __init__(model,device,optimizer,criterion):
         self.model = model

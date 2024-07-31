@@ -1,3 +1,5 @@
+#A custom model for implementing the Graph Convolutional Network
+
 import numpy as np
 import networkx as nx
 import tensorflow as tf

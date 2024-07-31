@@ -1,3 +1,5 @@
+#MakeDataset: A module for creating a custom dataset for MIL.
+
 from torch.utils.data import Dataset
 import torch
 class MakeDataset(Dataset):

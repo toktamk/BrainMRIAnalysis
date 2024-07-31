@@ -1,3 +1,5 @@
+#This loss function is commonly used in contrastive learning tasks, particularly in models like SimCLR, to encourage similar embeddings to be close together in the feature space while pushing dissimilar embeddings apart.
+#The ContrastiveLoss class computes the contrastive loss between pairs of embeddings and their projections. It leverages cosine similarity to measure the similarity between embeddings and employs a temperature scaling factor to control the sharpness of the similarity distribution.
 import torch
 import torch.nn as nn
 from torch.nn import functional as F

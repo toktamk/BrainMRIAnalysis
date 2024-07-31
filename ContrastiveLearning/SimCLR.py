@@ -1,3 +1,7 @@
+#The SimCLR class is a PyTorch implementation of the SimCLR framework, 
+#which is designed for contrastive learning of visual representations. 
+#This class defines the architecture of the model, including a base encoder for feature extraction 
+#and a projection head for mapping the features into a lower-dimensional space.
 import torch
 import torch.nn as nn
 from torch.nn import functional as F

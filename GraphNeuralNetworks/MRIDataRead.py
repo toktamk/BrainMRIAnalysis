@@ -1,3 +1,5 @@
+#MRIDataRead: A module for reading and preprocessing MRI data.
+
 import os
 import cv2
 import numpy as np

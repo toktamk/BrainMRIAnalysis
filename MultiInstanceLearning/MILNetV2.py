@@ -1,3 +1,4 @@
+#MILNetV2: A custom neural network model for implementing the MIL approach.
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

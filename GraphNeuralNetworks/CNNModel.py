@@ -1,3 +1,5 @@
+#CNNModel: A custom neural network model for implementing the CNN architecture.
+
 from tensorflow.keras import layers, Model
 class CNNModel(Model):
     def __init__(self, num_classes):

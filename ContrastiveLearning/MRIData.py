@@ -1,3 +1,5 @@
+#The MRIData class is a custom PyTorch dataset that loads and preprocesses MRI image pairs for use in a machine learning model. 
+#This class inherits from torchvision.datasets.VisionDataset and provides a convenient way to load and access MRI data.
 import os
 import cv2
 import numpy as np
