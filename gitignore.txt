@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data & outputs (do NOT commit medical data)
+data/
+runs/
+outputs/
+checkpoints/
+*.nii
+*.nii.gz
+
+# Logs
+*.log
+wandb/
+mlruns/
+
+# OS
+.DS_Store
+Thumbs.db
