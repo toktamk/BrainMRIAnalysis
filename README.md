@@ -57,7 +57,7 @@ Create a virtual environment and install dependencies:
 
 ``` bash
 pip install -r requirements.txt
-pip install pytest ruff black pre-commit
+
 ```
 
 If using PyTorch Geometric, install it following:
