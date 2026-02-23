@@ -26,7 +26,7 @@ class ContrastiveDataConfig:
 
 
 # ---------------------------
-# Helpers
+# Helper
 # ---------------------------
 
 IMG_EXTS = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff"}
@@ -86,7 +86,7 @@ def default_simclr_transform(image_size: int) -> Callable:
 
 
 # ---------------------------
-# Dataset
+# MRI Pair Dataset
 # ---------------------------
 
 class MRIPairDataset(Dataset):
