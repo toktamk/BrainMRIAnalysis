@@ -1,52 +1,104 @@
-# BrainMRIAnalysis
+# Brain MRI Analysis
 
-A research-grade, modular framework for **hierarchical brain MRI tumor classification**.
+Research-grade modular framework for hierarchical brain MRI tumour classification using complementary representation learning and patient-level modelling paradigms.
 
-This repository integrates four complementary modeling paradigms:
+This repository integrates:
 
-1. **Contrastive Learning** (SimCLR-style self-supervision)  
-2. **Attention-Based Multi-Instance Learning (MIL)**  
-3. **Graph Neural Networks (GNN)**  
-4. **Probabilistic Model Ensemble (MIL + GNN + SSL)**  
+* SimCLR-style contrastive learning,
+* attention-based multi-instance learning (MIL),
+* graph neural networks (GNN),
+* and probabilistic ensemble modelling
 
-The framework is designed for:
+for reproducible hierarchical tumour type and grade prediction from MRI slice data.
 
-- Patient-level modeling  
-- Hierarchical tumor type → grade prediction  
-- Reproducible experimentation  
-- Robust evaluation with ROC / PR / confusion matrices  
-- Modular cross-paradigm comparison and fusion  
+## System Overview
 
----
+<p align="center">
+  <img src="docs/BrainMRIAnalysisArchitecture.png" width="95%">
+</p>
 
-# Executive Architecture Overview
+The framework combines multiple modelling paradigms to capture complementary inductive biases across slice-level, bag-level, and graph-level representations.
 
-Each paradigm captures a different inductive bias:
+All supervised pipelines follow hierarchical factorisation:
 
-| Module | Inductive Bias | Modeling Unit |
-|--------|----------------|--------------|
-| ContrastiveLearning | Representation invariance | Slice-level |
-| MultiInstanceLearning | Attention-weighted aggregation | Bag of slices |
-| GraphNeuralNetworks | Relational slice modeling | Slice graph |
-| Ensemble | Cross-model fusion | Probability-level |
-
-All supervised models follow hierarchical factorization:
-
-```
+```text
 P(type, grade | X) = P(type | X) · P(grade | X, type)
 ```
 
-Grade inference uses probabilistic mixture:
+Grade prediction is computed using probabilistic mixture inference:
 
-```
+```text
 P(g) = Σ_t P(t) · P(g | t)
 ```
 
----
+## Core Modeling Paradigms
 
-# Project Structure
+| Module                  | Modeling Focus                 | Representation Level |
+| ----------------------- | ------------------------------ | -------------------- |
+| Contrastive Learning    | Representation invariance      | Slice-level          |
+| Multi-Instance Learning | Attention-weighted aggregation | Bag of slices        |
+| Graph Neural Networks   | Relational slice modeling      | Slice graph          |
+| Ensemble                | Cross-model fusion             | Probability-level    |
 
-```
+## Key Capabilities
+
+### Contrastive Learning
+
+* SimCLR-style self-supervised pretraining
+* Slice-level representation learning
+* Encoder pretraining for downstream classification
+
+### Attention-Based Multi-Instance Learning
+
+* Patient-level bag aggregation
+* Attention-weighted slice importance
+* Two-stage tumour type and grade inference
+
+### Graph Neural Networks
+
+* Slice-level graph construction
+* Relational feature propagation
+* Graph-based patient representation learning
+
+### Ensemble Modeling
+
+* Probabilistic fusion across paradigms
+* Cross-model aggregation
+* Robust hierarchical prediction
+
+### Evaluation
+
+* ROC-AUC evaluation
+* Precision-recall analysis
+* Confusion matrix reporting
+* Strict joint correctness evaluation
+* Teacher-forced vs end-to-end grade evaluation
+
+### Reproducibility
+
+* Modular experimentation pipelines
+* Deterministic workflows
+* Sanity validation utilities
+* Cross-paradigm benchmarking
+
+## Why This Project
+
+Brain MRI classification requires robust patient-level reasoning across heterogeneous slice representations.
+
+This repository explores:
+
+* hierarchical tumour modelling,
+* patient-level representation learning,
+* relational slice reasoning,
+* and modular cross-paradigm comparison
+
+within reproducible MRI analysis workflows.
+
+The focus is on research-oriented evaluation and architectural comparison rather than single-model optimisation.
+
+## Repository Structure
+
+```text
 brainmrianalysis/
 │
 ├── src/
@@ -61,124 +113,187 @@ brainmrianalysis/
 └── pyproject.toml
 ```
 
----
+## Expected Dataset Layout
 
-# Expected Dataset Layout
-
-```
+```text
 DATA_ROOT/
-  actrocytoma-g1/
+  astrocytoma-g1/
     P1/
       slice_0001.png
       slice_0002.png
+
   glioblastoma-g4/
   meningioma-g2/
 ```
 
 Folder naming convention:
 
-```
+```text
 <tumor_type>-g<1..4>
 ```
 
----
+## Installation
 
-# Installation
+### Core Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-If using Graph Neural Networks, follow PyTorch Geometric installation:
+### PyTorch Geometric
+
+Graph Neural Network experiments require PyTorch Geometric:
 
 https://pytorch-geometric.readthedocs.io/
 
-Optional developer tools:
+### Optional Developer Tools
 
 ```bash
 pip install pytest ruff black pre-commit
 ```
 
----
+## Experimental Workflows
 
-# Experimental Workflows
-
-## 1. Contrastive Learning
+### 1. Contrastive Learning
 
 ```bash
-python src/ContrastiveLearning/pretrain_simclr.py   --data_root /path/to/DATA_ROOT   --epochs 50   --batch_size 64   --encoder mobilenet_v2
+python src/ContrastiveLearning/pretrain_simclr.py \
+  --data_root /path/to/DATA_ROOT \
+  --epochs 50 \
+  --batch_size 64 \
+  --encoder mobilenet_v2
 ```
 
-Output: `simclr_pretrain.pt`
+Output:
 
----
+```text
+simclr_pretrain.pt
+```
 
-## 2. Attention-Based MIL
+### 2. Attention-Based Multi-Instance Learning
 
 ```bash
-python src/MultiInstanceLearning/train.py   --data_root /path/to/DATA_ROOT   --epochs 30   --batch_size 2   --bag_size 8   --emb_dim 256   --attn_dim 128
+python src/MultiInstanceLearning/train.py \
+  --data_root /path/to/DATA_ROOT \
+  --epochs 30 \
+  --batch_size 2 \
+  --bag_size 8 \
+  --emb_dim 256 \
+  --attn_dim 128
 ```
 
 Full evaluation:
 
 ```bash
-python src/MultiInstanceLearning/e2e_mil_two_step_pipeline.py   --data_root /path/to/DATA_ROOT
+python src/MultiInstanceLearning/e2e_mil_two_step_pipeline.py \
+  --data_root /path/to/DATA_ROOT
 ```
 
----
-
-## 3. Graph Neural Networks
+### 3. Graph Neural Networks
 
 ```bash
-python src/GraphNeuralNetworks/e2e_two_step_pipeline.py   --data_root /path/to/DATA_ROOT   --epochs 40   --bag_size 8   --node_dim 64   --hidden_dim 128
+python src/GraphNeuralNetworks/e2e_two_step_pipeline.py \
+  --data_root /path/to/DATA_ROOT \
+  --epochs 40 \
+  --bag_size 8 \
+  --node_dim 64 \
+  --hidden_dim 128
 ```
 
----
-
-## 4. Ensemble
+### 4. Probabilistic Ensemble
 
 ```bash
-python src/MultiInstanceLearning/ensemble_two_step.py   --data_root /path/to/DATA_ROOT   --ckpt_mil runs/e2e_mil_two_step/best.pt   --ckpt_gnn runs/gnn_two_step_e2e/best.pt   --ckpt_ssl runs/e2e_simclr_two_step/mil_two_step_best.pt   --w_mil 1.0   --w_gnn 1.0   --w_ssl 1.0
+python src/MultiInstanceLearning/ensemble_two_step.py \
+  --data_root /path/to/DATA_ROOT \
+  --ckpt_mil runs/e2e_mil_two_step/best.pt \
+  --ckpt_gnn runs/gnn_two_step_e2e/best.pt \
+  --ckpt_ssl runs/e2e_simclr_two_step/mil_two_step_best.pt \
+  --w_mil 1.0 \
+  --w_gnn 1.0 \
+  --w_ssl 1.0
 ```
 
----
+## Evaluation Metrics
 
-# Evaluation Metrics
+### Tumour Type Classification
 
-Tumor Type:
+* Accuracy
+* Balanced Accuracy
+* Macro / Weighted F1
+* ROC-AUC
+* Precision-Recall AP
 
-- Accuracy  
-- Balanced Accuracy  
-- Macro / Weighted F1  
-- ROC-AUC  
-- Precision-Recall AP  
+### Grade Prediction
 
-Grade:
+* Teacher-forced accuracy
+* End-to-end grade accuracy
+* Strict joint correctness
 
-- Teacher-forced accuracy  
-- End-to-end grade accuracy  
-- Strict joint correctness  
+## Sanity Validation
 
----
-
-# Sanity Checks
+### Data Audit
 
 ```bash
-python scripts/sanity_data_audit.py --data_root /path/to/DATA_ROOT
+python scripts/sanity_data_audit.py \
+  --data_root /path/to/DATA_ROOT
 ```
+
+### Seed Reproducibility
 
 ```bash
-python scripts/sanity_seed_repro.py --data_root /path/to/DATA_ROOT
+python scripts/sanity_seed_repro.py \
+  --data_root /path/to/DATA_ROOT
 ```
+
+### Small-Sample Overfit Check
 
 ```bash
-python src/MultiInstanceLearning/sanity_overfit_small.py   --data_root /path/to/DATA_ROOT
+python src/MultiInstanceLearning/sanity_overfit_small.py \
+  --data_root /path/to/DATA_ROOT
 ```
 
-Expected training accuracy → ~1.0
+Expected training accuracy:
 
----
+```text
+~1.0
+```
 
-# License
+## Research Contributions
+
+* Hierarchical tumour type → grade prediction
+* Modular comparison across MRI modelling paradigms
+* Patient-level multi-instance reasoning
+* Relational graph-based MRI analysis
+* Self-supervised MRI representation learning
+* Probabilistic ensemble fusion for hierarchical prediction
+
+## Intended Use
+
+Designed for:
+
+* brain MRI research,
+* representation learning experimentation,
+* graph-based medical imaging research,
+* and reproducible hierarchical classification workflows.
+
+Not intended for clinical deployment or medical decision-making.
+
+## Current Research Directions
+
+* Improved graph construction strategies
+* Cross-paradigm feature alignment
+* Robust patient-level aggregation
+* Advanced self-supervised representation learning
+* Calibration-aware hierarchical prediction
+* Multi-modal neuroimaging extensions
+
+## License
 
 MIT License.
+
+## Author
+
+Toktam Khatibi
+Senior Machine Learning Research Scientist
+
+Clinical AI • Medical Imaging • Multimodal AI • Graph-Based Learning • Representation Learning
