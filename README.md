@@ -11,6 +11,21 @@ This repository integrates:
 
 for reproducible hierarchical tumour type and grade prediction from MRI slice data.
 
+## Ecosystem Context
+
+This repository is part of a broader Clinical AI Systems Ecosystem exploring:
+- evidence-grounded healthcare AI,
+- multimodal patient modelling,
+- evaluation-aware machine learning,
+- reproducible experimentation,
+- and deployment-oriented clinical AI workflows.
+
+Other repositories in the ecosystem investigate:
+- clinical Retrieval-Augmented Generation (RAG),
+- multimodal survival modelling,
+- medical imaging representation learning,
+- and evidence-aware AI orchestration.
+
 ## Clinical Problem Context
 
 Brain MRI analysis often requires patient-level reasoning across heterogeneous imaging slices with substantial variation in tumour appearance, grade distribution, and anatomical structure.
