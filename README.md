@@ -11,6 +11,12 @@ This repository integrates:
 
 for reproducible hierarchical tumour type and grade prediction from MRI slice data.
 
+## Clinical Problem Context
+
+Brain MRI analysis often requires patient-level reasoning across heterogeneous imaging slices with substantial variation in tumour appearance, grade distribution, and anatomical structure.
+
+This repository explores how different representation learning paradigms can capture complementary information for hierarchical tumour type and grade prediction under reproducible research workflows.
+
 ## System Overview
 
 <p align="center">
@@ -33,12 +39,12 @@ P(g) = Σ_t P(t) · P(g | t)
 
 ## Core Modeling Paradigms
 
-| Module                  | Modeling Focus                 | Representation Level |
-| ----------------------- | ------------------------------ | -------------------- |
-| Contrastive Learning    | Representation invariance      | Slice-level          |
-| Multi-Instance Learning | Attention-weighted aggregation | Bag of slices        |
-| Graph Neural Networks   | Relational slice modeling      | Slice graph          |
-| Ensemble                | Cross-model fusion             | Probability-level    |
+| Module                  | Modeling Focus                 | Representation Level | Clinical Motivation             |
+| ----------------------- | ------------------------------ | -------------------- | ------------------------------- |
+| Contrastive Learning    | Representation invariance      | Slice-level          | limited labelled MRI data       |
+| Multi-Instance Learning | Attention-weighted aggregation | Bag of slices        | patient-level slice aggregation |
+| Graph Neural Networks   | Relational slice modeling      | Slice graph          | relational slice structure      |
+| Ensemble                | Cross-model fusion             | Probability-level    | robustness across paradigms     |
 
 ## Key Capabilities
 
@@ -81,7 +87,19 @@ P(g) = Σ_t P(t) · P(g | t)
 * Sanity validation utilities
 * Cross-paradigm benchmarking
 
+## Experimental Philosophy
+
+The repository prioritises:
+- reproducible experimentation,
+- modular comparison,
+- patient-level evaluation integrity,
+- and architectural interpretability.
+
+The focus is on understanding representation behaviour and modelling trade-offs rather than maximising benchmark performance alone.
+
 ## Why This Project
+
+The objective is not to identify a universally optimal architecture. Instead, the repository explores how different representation paradigms behave under patient-level reasoning tasks, limited data conditions, and modular experimentation settings common in medical imaging research.
 
 Brain MRI classification requires robust patient-level reasoning across heterogeneous slice representations.
 
@@ -96,6 +114,15 @@ within reproducible MRI analysis workflows.
 
 The focus is on research-oriented evaluation and architectural comparison rather than single-model optimisation.
 
+## Research Questions Explored
+
+This repository investigates several broader research questions:
+- How should patient-level MRI information be aggregated across slices?
+- Can graph-based representations improve relational modelling between slices?
+- How does self-supervised pretraining affect downstream tumour classification?
+- What trade-offs emerge between modularity, interpretability, and predictive performance?
+- How stable are hierarchical prediction workflows across modelling paradigms?
+  
 ## Repository Structure
 
 ```text
