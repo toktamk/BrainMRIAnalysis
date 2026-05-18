@@ -23,7 +23,6 @@ This repository is part of a broader Clinical AI Systems Ecosystem exploring:
 Other repositories in the ecosystem investigate:
 - clinical Retrieval-Augmented Generation (RAG),
 - multimodal survival modelling,
-- medical imaging representation learning,
 - and evidence-aware AI orchestration.
 
 ## Clinical Problem Context
